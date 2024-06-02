@@ -8,6 +8,7 @@
     "type": "git",
     "url":"https://github.com/shing1Sks/op-db"
   },
+  "homepage": "https://github.com/shing1Sks/op-db#readme",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev":"nodemon -r dotenv/config index.js"

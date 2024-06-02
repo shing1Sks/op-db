@@ -1,10 +1,7 @@
 import connectToDB from "./dbMongo.js";
-import dotenv from "dotenv";
 import app from "./expressApp.js";
 
-dotenv.config({path:"./.env"});
-
-connectToDB().then(
+const main = () => connectToDB().then(
     ()=>{
         console.log("mongodb connected");
         app.on("error",(e)=>{
@@ -20,3 +17,5 @@ connectToDB().then(
         console.log("handle this error @ index.js")
     }
 )
+
+module.exports = main
