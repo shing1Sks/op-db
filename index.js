@@ -18,4 +18,4 @@ const main = () => connectToDB().then(
     }
 )
 
-module.exports = main
+export default main
