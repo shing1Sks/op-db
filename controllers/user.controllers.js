@@ -48,7 +48,8 @@ const registerUser = asyncHandler(async (req, res) => {
     throw new ApiError(400, "username already exists !");
   }
 
-  var localFilePath = req.file?.path;
+
+  var localFilePath = req.file.path;
 
   if (localFilePath) {
     const response = await uploadOnCloudinary(localFilePath);
