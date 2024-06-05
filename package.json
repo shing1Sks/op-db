@@ -1,15 +1,12 @@
 {
   "name": "op-db",
-  "version": "1.0.3",
+  "version": "1.0.2",
   "description": "Centralised user management database backend",
   "main": "index.js",
   "type":"module",
   "repository": {
     "type": "git",
     "url":"git+https://github.com/shing1Sks/op-db"
-  },
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
   },
   "homepage": "https://github.com/shing1Sks/op-db#readme",
   "scripts": {
