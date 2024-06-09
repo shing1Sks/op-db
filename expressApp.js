@@ -12,6 +12,7 @@ if (process.env.CORS_ORIGIN == "*") {
     credentials: true,
   };
   app.use(cors(corsOptions));
+  app.options("*", cors(corsOptions));
 } else {
   app.use(
     cors({
@@ -19,6 +20,7 @@ if (process.env.CORS_ORIGIN == "*") {
       credentials: true,
     })
   );
+  app.options("*", cors());
 }
 
 app.use(e.json({ limit: "32kb" }));
