@@ -1,6 +1,6 @@
 {
   "name": "op-db",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Centralised user management database backend",
   "main": "index.js",
   "type": "module",
