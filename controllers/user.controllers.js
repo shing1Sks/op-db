@@ -225,7 +225,7 @@ const getLeaderboard = asyncHandler(async (req, res) => {
     const userRank = await getUserRankInProject(_id, project);
     const range = req.body.range || 5;
     // Fetch users around the specified user's rank within the project
-    const lowerBound = userRank - range > 0 ? userRank - range : 1;
+    const lowerBound = Math.max(userRank - range, 1);
     const upperBound = userRank + range;
     const users = await User.aggregate([
       { $match: { project: project } }, // Step 1: Filter users by project
