@@ -48,7 +48,6 @@ const registerUser = asyncHandler(async (req, res) => {
     throw new ApiError(400, "username already exists !");
   }
 
-
   var localFilePath = req.file.path;
 
   if (localFilePath) {
@@ -147,11 +146,19 @@ const logoutUser = asyncHandler(async (req, res) => {
   // remove cookies
   // set refresh token undefined
   // return response
-  const user = await User.findByIdAndUpdate(
-    req.user._id,
-    { $set: { refreshToken: "" } },
-    { new: true }
-  ).select("-password");
+  try {
+    const user = await User.findByIdAndUpdate(
+      req.user._id,
+      { $set: { refreshToken: "" } },
+      { new: true }
+    ).select("-password");
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+  } catch (error) {
+    console.error("Error clearing refreshToken:", error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
   const options = {
     httpOnly: true,
     secure: true,
@@ -161,7 +168,7 @@ const logoutUser = asyncHandler(async (req, res) => {
     .status(200)
     .clearCookie("accessToken", options)
     .clearCookie("refreshToken", options)
-    .json(new ApiResponse(200, {user}, "user logged out"));
+    .json(new ApiResponse(200, { user }, "user logged out"));
 });
 
 const getUser = asyncHandler(async (req, res) => {
@@ -311,7 +318,7 @@ const changePassword = asyncHandler(async (req, res) => {
   if (!user) {
     throw new ApiError(400, "user not found !");
   }
-  
+
   if (!(await user.isPasswordCorrect(oldPassword))) {
     throw new ApiError(400, "oldPassword is incorrect !");
   }
@@ -335,7 +342,9 @@ const storeDataForUser = asyncHandler(async (req, res) => {
 
 const getStoredData = asyncHandler(async (req, res) => {
   const { _id } = req.user;
-  const user = await User.findById(_id).select("-password -refreshToken -email -fullname -createdAt -updatedAt -__v -avatar");
+  const user = await User.findById(_id).select(
+    "-password -refreshToken -email -fullname -createdAt -updatedAt -__v -avatar"
+  );
   const data = user.userdata;
   res.status(200).json(new ApiResponse(200, data, "data fetched"));
 });
